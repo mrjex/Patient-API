@@ -2,10 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { getUsersAppointments, getDentistTimeslots, createAppointment } = require('../controllers/appointmentController');
 
-/* GET appointments with matching patientID. */
-router.get('/users/:patientID', getUsersAppointments);
-
-/* POST appointment using a patientID and appointmentID*/
-router.patch('/:appointmentID', createAppointment);
+/* GET timeslots with matching dentist ID.*/
+router.get('/dentists/:dentistID', getDentistTimeslots);
 
 module.exports = router;
