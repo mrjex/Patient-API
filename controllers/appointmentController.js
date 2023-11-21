@@ -1,62 +1,54 @@
-const mqtt = require("mqtt");
 const { v4: uuidv4 } = require('uuid');
-
-const mqttOptions = {
-    host: 'placeholder',
-    port: 'placeholder',
-    protocol: 'placeholder',
-    username: 'placeholder',
-    password: 'placeholder'
-};
-const client = mqtt.connect(mqttOptions);
+const { mqttTimeout, responseMap, client } = require("./utils")
 
 
-
-const responseMap = new Map();
-
-const subscribeTopic = "grp20/res/appointments/+";
-client.subscribe(subscribeTopic);
-
-/*Handles received messages */
-client.on("message", (topic, message) => {
-    const messageJson = JSON.parse(message.toString());
-    if (messageJson.hasOwnProperty("requestID")) {
-        const res = responseMap.get(messageJson.requestID)
-        res.json(messageJson);
-        responseMap.delete(messageJson.requestID);
-    }
-})
-
-/* GET appointments with matching patientID. */
+/* GET appointments/users/:patientID' 
+gets appointments with matching patientID. */
 async function getUsersAppointments(req, res, next) {
+    if (!client.connected) { return res.status(502).json({ error: "MQTT client not connected" }) }
+
+    const uuid = uuidv4();
     try {
         const patientID = req.params.patientID;
         const publishTopic = "grp20/req/appointments/get";
-        const uuid = uuidv4();
 
         responseMap.set(uuid, res);
-        client.publish(publishTopic, JSON.stringify({ patientID: patientID, requestID: uuid }));
+        client.publish(publishTopic, JSON.stringify({
+            patientID: patientID,
+            requestID: uuid
+        }), (err) => { if (err) { next(err) } });
+        mqttTimeout(uuid, 10000)
     }
     catch (err) {
+        responseMap.delete(uuid);
         next(err);
     }
 }
-/* POST appointment using a patientID and appointmentID*/
+/* POST appointments/:appointmentID 
+Create appointment using a patientID and timeslotID*/
 async function createAppointment(req, res, next) {
+    if (!client.connected) { return res.status(502).json({ error: "MQTT client not connected" }) }
+
+    const uuid = uuidv4();
     try {
-        const appointmentID = req.body.appointmentID;
+        const timeslotID = req.body.timeslotID;
         const patientID = req.body.patientID;
         const publishTopic = "grp20/req/appointments/post/"
-        const uuid = uuidv4();
+        
         responseMap.set(uuid, res);
-        client.publish(publishTopic, JSON.stringify({ appointmentID: appointmentID, patientID: patientID, requestID: uuid}));
+        client.publish(publishTopic, JSON.stringify({
+            appointmentID: timeslotID,
+            patientID: patientID,
+            requestID: uuid
+        }), (err) => { if (err) { next(err) } });
+        mqttTimeout(uuid, 10000)
     }
     catch (err) {
+        responseMap.delete(uuid);
         next(err)
     }
 }
-
 module.exports = {
     getUsersAppointments,
     createAppointment,
-  };
+};
