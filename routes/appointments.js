@@ -6,6 +6,6 @@ const { getUsersAppointments, getDentistTimeslots, createAppointment } = require
 router.get('/users/:patientID', getUsersAppointments);
 
 /* POST appointment using a patientID and appointmentID*/
-router.patch('/:appointmentID', createAppointment);
+router.post('/:appointmentID', createAppointment);
 
 module.exports = router;
