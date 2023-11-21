@@ -34,10 +34,10 @@ async function createAppointment(req, res, next) {
         const timeslotID = req.body.timeslotID;
         const patientID = req.body.patientID;
         const publishTopic = "grp20/req/appointments/post/"
-        
+
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
-            appointmentID: timeslotID,
+            timeslotID: timeslotID,
             patientID: patientID,
             requestID: uuid
         }), (err) => { if (err) { next(err) } });
