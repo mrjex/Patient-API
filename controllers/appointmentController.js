@@ -24,7 +24,7 @@ async function getUsersAppointments(req, res, next) {
         next(err);
     }
 }
-/* POST appointments/:appointmentID 
+/* POST appointments/ 
 Create appointment using a patientID and timeslotID*/
 async function createAppointment(req, res, next) {
     if (!client.connected) { return res.status(502).json({ error: "MQTT client not connected" }) }
@@ -48,7 +48,30 @@ async function createAppointment(req, res, next) {
         next(err)
     }
 }
+/* DELETE appointments/:appointmentID 
+DELETE appointment using an appointmentID*/
+async function cancelAppointment(req, res, next) {
+    if (!client.connected) { return res.status(502).json({ error: "MQTT client not connected" }) }
+
+    const uuid = uuidv4();
+    try {
+        const appointmentID = req.params.appointmentID;
+        const publishTopic = "grp20/req/appointments/delete/"
+        
+        responseMap.set(uuid, res);
+        client.publish(publishTopic, JSON.stringify({
+            appointmentID: appointmentID,
+            requestID: uuid
+        }), (err) => { if (err) { next(err) } });
+        mqttTimeout(uuid, 10000)
+    }
+    catch (err) {
+        responseMap.delete(uuid);
+        next(err)
+    }
+}
 module.exports = {
     getUsersAppointments,
     createAppointment,
+    cancelAppointment
 };
