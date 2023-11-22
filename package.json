@@ -6,7 +6,7 @@
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
     "test": "newman run ./tests/Test.postman_collection.json",
-    "ci-test": "conc --kill-others \"wait-on http://localhost:3000 && npm run test\" \"npm run start\" "
+    "ci-test": "npm run start && wait-on http://localhost:3000 && npm run test"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
