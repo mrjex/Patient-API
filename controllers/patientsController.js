@@ -96,8 +96,35 @@ async function updatePatient(req, res, next) {
     }
 }
 
+async function deletePatient(req, res, next) {
+    if (!client.connected) {
+        return res.status(502).json({error: "MQTT client not connected"})
+    }
+
+    const uuid = uuidv4();
+    try {
+        const patientID = req.params.patientID;
+        const publishTopic = "grp20/req/patients/delete/"
+
+        responseMap.set(uuid, res);
+        client.publish(publishTopic, JSON.stringify({
+            patientID: patientID,
+            requestID: uuid
+        }), (err) => {
+            if (err) {
+                next(err)
+            }
+        });
+        await mqttTimeout(uuid, 10000)
+    } catch (err) {
+        responseMap.delete(uuid);
+        next(err)
+    }
+}
+
 module.exports = {
     getPatient,
     createPatient,
-    updatePatient
+    updatePatient,
+    deletePatient
 };
