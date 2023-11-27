@@ -1,10 +1,10 @@
 const mqtt = require("mqtt");
 const mqttOptions = {
-    host: 'Placeholder',
-    port: 'Placeholder',
-    protocol: 'Placeholder',
-    username: 'Placeholder',
-    password: 'Placeholder'
+    host: '36c2553dc5d54a65908f4c1f68ab928b.s1.eu.hivemq.cloud',
+    port: '8883',
+    protocol: 'mqtts',
+    username: 'Jamer',
+    password: 'mqTT00!bb'
 };
 const client = mqtt.connect(mqttOptions);
 
