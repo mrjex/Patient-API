@@ -1,0 +1,24 @@
+image: node:latest
+
+# Cache modules in between jobs per-branch
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - build
+  - test
+
+build:
+  stage: build
+  tags:
+    - docker
+  script:
+    - npm install
+
+test:
+  stage: test
+  tags:
+    - docker
+  script:
+    - npm run ci-test
