@@ -3,9 +3,9 @@ const router = express.Router();
 const { getDentists, getDentist } = require('../controllers/dentistController');
 
 // GET dentists all dentists or a subset of dentists
-router.get('/get', getDentists);
+router.get('/', getDentists);
 
 // GET dentist with dentistID
-router.get('/get/:dentistsID', getDentist);
+router.get('/:dentistsID', getDentist);
 
 module.exports = router;
