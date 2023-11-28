@@ -1,10 +1,10 @@
 const mqtt = require("mqtt");
 const mqttOptions = {
-    host: 'Placeholder',
-    port: 'Placeholder',
-    protocol: 'Placeholder',
-    username: 'Placeholder',
-    password: 'Placeholder'
+    host: 'placeholder',
+    port: 'placeholder',
+    protocol: 'placeholder',
+    username: 'placeholder',
+    password: 'placeholder'
 };
 const client = mqtt.connect(mqttOptions);
 
@@ -25,8 +25,15 @@ client.on("message", (topic, message) => {
         const messageJson = JSON.parse(message.toString());
         if (messageJson.hasOwnProperty("requestID")) {
             const res = responseMap.get(messageJson.requestID)
+
             if (res) {
-                res.json(messageJson);
+                //Checks if the message contains a status code
+                if (messageJson.hasOwnProperty("status")) {
+                    //Sends response with the provided status code & error message
+                    res.status(parseInt(messageJson.status)).json({ error: messageJson.error, })
+                } else {
+                    res.json(messageJson);
+                }
                 responseMap.delete(messageJson.requestID);
             } else { console.error("Response object not found for requestID: " + messageJson.requestID) }
         }
@@ -63,6 +70,7 @@ async function mqttTimeout(uuid, time) {
 
     }, time)
 };
+
 module.exports = {
     mqttTimeout,
     client,
