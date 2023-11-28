@@ -14,6 +14,7 @@ const responseMap = new Map();
 const subscribeTopics = [
     "grp20/res/appointments/+",
     "grp20/res/timeSlots/+",
+    "grp20/res/dentists/+",
     "grp20/res/patients/+"
 ];
 
