@@ -1,10 +1,10 @@
 const mqtt = require("mqtt");
 const mqttOptions = {
-    host: 'placeholder',
-    port: 'placeholder',
-    protocol: 'placeholder',
-    username: 'placeholder',
-    password: 'placeholder'
+    host: 'Placeholder',
+    port: 'Placeholder',
+    protocol: 'Placeholder',
+    username: 'Placeholder',
+    password: 'Placeholder'
 };
 const client = mqtt.connect(mqttOptions);
 
@@ -13,7 +13,8 @@ const responseMap = new Map();
 
 const subscribeTopics = [
     "grp20/res/appointments/+",
-    "grp20/res/timeSlots/+"
+    "grp20/res/timeSlots/+",
+    "grp20/res/patients/+"
 ];
 
 
