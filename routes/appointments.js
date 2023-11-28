@@ -9,6 +9,6 @@ router.get('/users/:patientID', getUsersAppointments);
 router.post('/', createAppointment);
 
 /* DELETE appointment using a appointmentID*/
-router.post('/:appointmentID', cancelAppointment);
+router.delete('/:appointmentID', cancelAppointment);
 
 module.exports = router;
