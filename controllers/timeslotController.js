@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
-const { mqttTimeout, responseMap, client } = require("./utils")
-
-const subscribeTopic = "grp20/res/timeSlots/+";
+const { client } = require('../mqttUtils/MQTTclient');
+const { responseMap } = require('../mqttUtils/responseHandler')
+const { mqttTimeout } = require('../mqttUtils/requestUtils')
 
 /* GET timeslots with matching dentist ID.*/
 async function getDentistTimeslots(req, res, next) {

@@ -1,6 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
-const { mqttTimeout, responseMap, client } = require("./utils")
-
+const { client } = require("../mqttUtils/MQTTclient");
+const { responseMap } = require('../mqttUtils/responseHandler')
+const { mqttTimeout } = require('../mqttUtils/requestUtils')
 
 /* GET appointments/users/:patientID' 
 gets appointments with matching patientID. */
@@ -57,7 +58,7 @@ async function cancelAppointment(req, res, next) {
     try {
         const appointmentID = req.params.appointmentID;
         const publishTopic = "grp20/req/appointments/delete/"
-        
+
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
             appointmentID: appointmentID,
