@@ -115,7 +115,12 @@ async function aggregateDentistInfo(message, initialRequestID) {
                 requestID: initialRequestID,
                 appointments: appointments
             }
-            sendResponse(message)
+            //Deleting the map entries so they don't grow infinitely
+            appointmentsMap.delete(initialRequestID);
+            appointments.forEach(appointment => {
+                dentistRequestIDToRequestID.delete(appointment.dentistRequestID);
+            })
+            sendResponse(message);
         }
     }
     catch (err) {
