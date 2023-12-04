@@ -1,6 +1,13 @@
-const { appointmentsMap, dentistRequestIDToRequestID } = require('./mapUtils');
 const { responseMap, sendResponse } = require('./responseHandler');
 const { v4: uuidv4 } = require('uuid');
+
+
+//This map stores appointments awaiting additional dentist information, requestID is used as the key.
+const appointmentsMap = new Map();
+/*This map stores a mapping between a dentistRequestID and a requestID, 
+this is used to easily find dentistGetRequests sent through getDentistInfo function*/
+const dentistRequestIDToRequestID = new Map();
+
 
 async function aggregateDentistInfo(message, initialRequestID) {
     try {
@@ -54,6 +61,7 @@ async function getDentistInfo(client, appointments, initialRequestID) {
                     console.error(err);
                 }
             })
+            mqttTimeout(uuid, 20000)
         }
     }
     catch (err) {
@@ -70,12 +78,16 @@ async function mqttTimeout(uuid, time) {
             responseMap.delete(uuid);
             response.status(504).json({ error: "Server timed out" });
         }
-
+        //delete key value pairs incase of timeouts.
+        appointmentsMap.delete(uuid);
+        dentistRequestIDToRequestID.delete(uuid);
     }, time)
 };
 
 module.exports = {
     aggregateDentistInfo,
     getDentistInfo,
-    mqttTimeout
+    mqttTimeout,
+    appointmentsMap,
+    dentistRequestIDToRequestID
 };

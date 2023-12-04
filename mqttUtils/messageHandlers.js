@@ -1,6 +1,5 @@
-const {appointmentsMap, dentistRequestIDToRequestID} = require('./mapUtils');
 const { sendResponse } = require('./responseHandler');
-const {getDentistInfo, aggregateDentistInfo} = require('./requestUtils');
+const {getDentistInfo, aggregateDentistInfo, appointmentsMap, dentistRequestIDToRequestID} = require('./requestUtils');
 
 
 //defines topics and a corresponding message handler
