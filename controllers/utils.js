@@ -37,101 +37,140 @@ client.on("message", (topic, message) => {
         const messageJson = JSON.parse(message.toString());
         for (const key in messageHandlers) {
             if (topic.startsWith(key)) {
-                messageHandlers[key](messageJson)
+                messageHandlers[key](messageJson);
                 break;
             }
         }
     } catch (err) {
-        console.error(err.message)
+        console.error(err.message);
     }
 });
 
 async function handleAppointmentResponse(message) {
-    const requestID = message.requestID;
-    const appointments = message.appointments;
-    appointmentsMap.set(requestID, appointments)
+    try {
+        const requestID = message.requestID;
+        const appointments = message.appointments;
+        appointmentsMap.set(requestID, appointments)
 
-    getDentistInfo(appointments, requestID);
+        getDentistInfo(appointments, requestID);
+    }
+    catch (err) {
+        console.error(err.message);
+    }
+
 }
 
 async function handleTimeSlotResponse(message) {
-    sendResponse(message);
+    try {
+        sendResponse(message);
+    }
+    catch (err) {
+        console.error(err.message);
+    }
 }
 
 async function handleDentistResponse(message) {
-    //checks if the response should be amended to an appointment
-    if (dentistRequestIDToRequestID.has(message.requestID)) {
-        const initialRequestID = dentistRequestIDToRequestID.get(message.requestID);
-        aggregateDentistInfo(message, initialRequestID);
+    try {
+        //checks if the response should be amended to an appointment
+        if (dentistRequestIDToRequestID.has(message.requestID)) {
+            const initialRequestID = dentistRequestIDToRequestID.get(message.requestID);
+            aggregateDentistInfo(message, initialRequestID);
+        }
+        else {
+            sendResponse(message);
+        }
     }
-    else {
-        sendResponse(message);
+    catch (err) {
+        console.log(err.message)
     }
+
 }
 
 async function handlePatientResponse(message) {
-    sendResponse(message);
+    try {
+        sendResponse(message);
+    }
+    catch (err) {
+        console.log(err.message)
+    }
 }
 
 async function aggregateDentistInfo(message, initialRequestID) {
-    //gets the array of appointments
-    const appointments = appointmentsMap.get(initialRequestID);
-    //gets the appointment to update
-    const appointment = appointments.find(appointment => appointment.dentistRequestID === message.requestID)
+    try {
+        //gets the array of appointments
+        const appointments = appointmentsMap.get(initialRequestID);
+        //gets the appointment to update
+        const appointment = appointments.find(appointment => appointment.dentistRequestID === message.requestID)
 
-    if (appointment) {
-        appointment.dentistInfo = message;
-    }
-
-
-    //Checks if all appointments have dentistInfo
-    const haveDentistInfo = appointments.every(appointment => appointment.hasOwnProperty("dentistInfo"));
-
-    if (haveDentistInfo) {
-        const message = {
-            requestID: initialRequestID,
-            appointments: appointments
+        if (appointment) {
+            appointment.dentistInfo = message;
         }
-        sendResponse(message)
+
+
+        //Checks if all appointments have dentistInfo
+        const haveDentistInfo = appointments.every(appointment => appointment.hasOwnProperty("dentistInfo"));
+
+        if (haveDentistInfo) {
+            const message = {
+                requestID: initialRequestID,
+                appointments: appointments
+            }
+            sendResponse(message)
+        }
+    }
+    catch (err) {
+        console.log(err.message);
     }
 }
 
 async function getDentistInfo(appointments, initialRequestID) {
-    const publishTopic = "grp20/req/dentists/get";
+    try {
+        const publishTopic = "grp20/req/dentists/get";
 
-    for (const appointment of appointments) {
-        const uuid = uuidv4();
-        appointment.dentistRequestID = uuid;
+        for (const appointment of appointments) {
+            const uuid = uuidv4();
+            appointment.dentistRequestID = uuid;
 
-        dentistRequestIDToRequestID.set(uuid, initialRequestID);
+            dentistRequestIDToRequestID.set(uuid, initialRequestID);
 
-        const dentistID = appointment.dentistID;
-        client.publish(publishTopic, JSON.stringify({
-            dentistID: dentistID,
-            requestID: uuid
-        }), (err) => {
-            if (err) {
-                next(err);
-            }
-        })
+            const dentistID = appointment.dentistID;
+            client.publish(publishTopic, JSON.stringify({
+                dentistID: dentistID,
+                requestID: uuid
+            }), (err) => {
+                if (err) {
+                    console.error(err);
+                }
+            })
+        }
     }
+    catch (err) {
+        console.error(err.message);
+    }
+
 }
 
 async function sendResponse(message) {
-    if (message.hasOwnProperty("requestID")) {
-        const res = responseMap.get(message.requestID);
+    try {
+        if (message.hasOwnProperty("requestID")) {
+            const res = responseMap.get(message.requestID);
 
-        if (res) {
-            //Checks if the message contains a status code
-            if (message.hasOwnProperty("status")) {
-                //Sends response with the provided status code & error message
-                res.status(parseInt(message.status)).json({ error: message.error, })
-            } else {
-                res.json(message);
-            }
-            responseMap.delete(message.requestID);
-        } else { console.error("Response object not found for requestID: " + message.requestID) }
+            if (res) {
+                //Checks if the message contains a status code
+                if (message.hasOwnProperty("status")) {
+                    //Sends response with the provided status code & error message
+                    res.status(parseInt(message.status)).json({ error: message.error, })
+                } else {
+                    res.json(message);
+                }
+                responseMap.delete(message.requestID);
+            } else { console.error("Response object not found for requestID: " + message.requestID) }
+        }
     }
+    catch (err) {
+        console.log(err.message);
+    }
+
 }
 
 client.on("connect", () => {
