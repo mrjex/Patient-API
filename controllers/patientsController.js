@@ -1,5 +1,7 @@
-const {v4: uuidv4} = require('uuid');
-const {mqttTimeout, responseMap, client} = require("./utils")
+const { v4: uuidv4 } = require('uuid');
+const { client } = require("../mqttUtils/MQTTclient");
+const { responseMap } = require('../mqttUtils/responseHandler')
+const { mqttTimeout } = require('../mqttUtils/requestUtils')
 
 // Get patients with matching patientID
 async function getPatient(req, res, next) {
