@@ -144,7 +144,7 @@ async function deletePatient(req, res, next) {
     const uuid = uuidv4();
     try {
         const patientID = req.params.patientID;
-        const publishTopic = "grp20/req/patients/delete/"
+        const publishTopic = "grp20/req/patients/delete"
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
