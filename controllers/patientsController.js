@@ -38,17 +38,13 @@ async function createPatient(req, res, next) {
 
     const uuid = uuidv4();
     try {
-        const name = req.body.name;
-        const ssn = req.body.ssn;
-        const email = req.body.email;
+        const username = req.body.username;
         const password = req.body.password
         const publishTopic = "grp20/req/patients/create";
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
-            name: name,
-            ssn: ssn,
-            email: email,
+            username: username,
             password: password,
             requestID: uuid
         }), (err) => {
@@ -71,13 +67,13 @@ async function loginPatient(req, res, next) {
 
     const uuid = uuidv4();
     try {
-        const email = req.body.email;
+        const username = req.body.username;
         const password = req.body.password
         const publishTopic = "grp20/req/patients/login";
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
-            email: email,
+            username: username,
             password: password,
             requestID: uuid
         }), (err) => {
@@ -99,23 +95,19 @@ async function updatePatient(req, res, next) {
     }
 
     const patientID = req.params.patientID;
-    const ssn = req.body.ssn;
-    const email = req.body.email;
-    const name = req.body.name;
+    const username = req.body.username;
+    const password = req.body.password;
 
     const uuid = uuidv4();
     try {
         let UpdateInformation = []
-        if (name) {
-            payload.push({name: name})
+        if (username) {
+            payload.push({username: username})
         }
-        if (ssn) {
-            payload.push({ssn: ssn})
+        if (password) {
+            payload.push({password: password})
         }
-        if (email) {
-            payload.push({email: email})
-        }
-
+        
         const publishTopic = "grp20/req/patients/update";
 
         responseMap.set(uuid, res);
