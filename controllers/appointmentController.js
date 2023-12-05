@@ -34,7 +34,7 @@ async function createAppointment(req, res, next) {
     try {
         const timeslotID = req.body.timeslotID;
         const patientID = req.body.patientID;
-        const publishTopic = "grp20/req/appointments/post/"
+        const publishTopic = "grp20/req/appointments/post"
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
@@ -57,7 +57,7 @@ async function cancelAppointment(req, res, next) {
     const uuid = uuidv4();
     try {
         const appointmentID = req.params.appointmentID;
-        const publishTopic = "grp20/req/appointments/delete/"
+        const publishTopic = "grp20/req/appointments/delete"
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
