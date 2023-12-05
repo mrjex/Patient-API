@@ -2,21 +2,21 @@ const express = require('express');
 const router = express.Router();
 const {getPatient, createPatient, loginPatient, updatePatient, deletePatient} = require('../controllers/patientsController.js');
 
-// To access any route use /patient before any these routes. Example: localhost3000/patient/create
+// To access any route use /patient before any these routes. Example: localhost3000/patient/login
 
 // Get patient with specified patientID
 router.get('/:patientID', getPatient);
 
 // Create  a new patient/user
-router.post('/create', createPatient);
+router.post('/', createPatient);
 
 // Login user
 router.post('/login', loginPatient);
 
 // Update patient information with specified patientID
-router.patch('/update/:patientID', updatePatient);
+router.patch('/:patientID', updatePatient);
 
 // Delete patient with specified patientID
-router.delete('/delete/:patientID', deletePatient);
+router.delete('/:patientID', deletePatient);
 
 module.exports = router;
