@@ -10,11 +10,11 @@ async function getDentistTimeslots(req, res, next) {
     const uuid = uuidv4();
     try {
         const dentistID = req.params.dentistID;
-        const publishTopic = "grp20/req/timeSlots/get";
+        const publishTopic = "grp20/req/availabletimes/get";
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
-            dentistID: dentistID,
+            dentist_id: dentistID,
             requestID: uuid
         }), (err) => { if (err) { next(err) } });
         mqttTimeout(uuid, 10000);

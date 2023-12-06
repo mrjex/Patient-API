@@ -32,14 +32,14 @@ async function createAppointment(req, res, next) {
 
     const uuid = uuidv4();
     try {
-        const timeslotID = req.body.timeslotID;
-        const patientID = req.body.patientID;
+        const timeslotID = req.body.timeslot_id;
+        const patientID = req.body.patient_id;
         const publishTopic = "grp20/req/appointments/post"
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
-            timeslotID: timeslotID,
-            patientID: patientID,
+            timeslot_id: timeslotID,
+            patient_id: patientID,
             requestID: uuid
         }), (err) => { if (err) { next(err) } });
         mqttTimeout(uuid, 10000)
