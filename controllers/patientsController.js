@@ -38,13 +38,15 @@ async function createPatient(req, res, next) {
 
     const uuid = uuidv4();
     try {
-        const username = req.body.username;
+        const username = req.body.username
+        const email = req.body.email
         const password = req.body.password
         const publishTopic = "grp20/req/patients/create";
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
             username: username,
+            email: email,
             password: password,
             requestID: uuid
         }), (err) => {
@@ -96,6 +98,7 @@ async function updatePatient(req, res, next) {
 
     const patientID = req.params.patientID;
     const username = req.body.username;
+    const email = req.params.email
     const password = req.body.password;
 
     const uuid = uuidv4();
@@ -103,6 +106,9 @@ async function updatePatient(req, res, next) {
         let UpdateInformation = []
         if (username) {
             payload.push({username: username})
+        }
+        if (email) {
+            payload.push({email: email})
         }
         if (password) {
             payload.push({password: password})
