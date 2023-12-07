@@ -54,7 +54,7 @@ async function getDentistInfo(client, appointments, initialRequestID) {
 
             const dentistID = appointment.dentistID;
             client.publish(publishTopic, JSON.stringify({
-                dentistID: dentistID,
+                dentist_id: dentistID,
                 requestID: uuid
             }), (err) => {
                 if (err) {

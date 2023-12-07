@@ -12,12 +12,12 @@ async function getDentists(req, res, next) {
 
     const uuid = uuidv4();
     try {
-        const clinic = req.query.clinic
+        const clinic_id = req.query.clinic_id
         const publishTopic = "grp20/req/dentists/get";
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
-            clinic: clinic,
+            clinic_id: clinic_id,
             requestID: uuid
         }), (err) => {
             if (err) {
@@ -44,7 +44,7 @@ async function getDentist(req, res, next) {
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
-            dentistID: dentistID,
+            dentist_id: dentistID,
             requestID: uuid
         }), (err) => {
             if (err) {

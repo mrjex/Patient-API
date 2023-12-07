@@ -10,12 +10,12 @@ async function getUsersAppointments(req, res, next) {
 
     const uuid = uuidv4();
     try {
-        const patientID = req.params.patientID;
+        const patient_id = req.params.patientID;
         const publishTopic = "grp20/req/appointments/get";
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
-            patientID: patientID,
+            patient_id: patient_id,
             requestID: uuid
         }), (err) => { if (err) { next(err) } });
         mqttTimeout(uuid, 10000)
@@ -38,7 +38,7 @@ async function createAppointment(req, res, next) {
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
-            timeslot_id: timeslotID,
+            availabletimes_id: timeslotID,
             patient_id: patientID,
             requestID: uuid
         }), (err) => { if (err) { next(err) } });
@@ -61,7 +61,7 @@ async function cancelAppointment(req, res, next) {
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
-            appointmentID: appointmentID,
+            appointment_ID: appointmentID,
             requestID: uuid
         }), (err) => { if (err) { next(err) } });
         mqttTimeout(uuid, 10000)
