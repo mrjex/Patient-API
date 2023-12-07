@@ -5,7 +5,7 @@ const {getDentistInfo, aggregateDentistInfo, appointmentsMap, dentistRequestIDTo
 //defines topics and a corresponding message handler
 const messageHandlers = {
     "grp20/res/appointments/": handleAppointmentResponse,
-    "grp20/res/timeSlots/": handleTimeSlotResponse,
+    "grp20/res/availableTimes/": handleAvailableTimesResponse,
     "grp20/res/dentists/": handleDentistResponse,
     "grp20/res/patients/": handlePatientResponse
 }
@@ -24,12 +24,13 @@ async function handleAppointmentResponse(client, message) {
 
 }
 
-async function handleTimeSlotResponse(message) {
+async function handleAvailableTimesResponse(client, message) {
     try {
+        console.log(message)
         sendResponse(message);
     }
     catch (err) {
-        console.error("handleTimeSlotResponse:", err.message);
+        console.error("handleAppointmentResponse:", err.message);
     }
 }
 
@@ -49,7 +50,7 @@ async function handleDentistResponse(client, message) {
 
 }
 
-async function handlePatientResponse(message) {
+async function handlePatientResponse(client, message) {
     try {
         sendResponse(message);
     }

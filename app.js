@@ -7,7 +7,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var appointmentsRouter = require('./routes/appointments');
-var timeslotsRouter = require('./routes/timeslots')
+var availableTimes = require('./routes/availableTimes')
 var dentistsRouter = require('./routes/dentists')
 var patientsRouter = require('./routes/patients')
 
@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/appointments', appointmentsRouter);
-app.use('/timeslots', timeslotsRouter)
+app.use('/availableTimes', availableTimes)
 app.use('/dentists', dentistsRouter)
 app.use('/patients', patientsRouter)
 

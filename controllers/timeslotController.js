@@ -4,17 +4,17 @@ const { responseMap } = require('../mqttUtils/responseHandler')
 const { mqttTimeout } = require('../mqttUtils/requestUtils')
 
 /* GET timeslots with matching dentist ID.*/
-async function getDentistTimeslots(req, res, next) {
+async function getDentistAvailableTimes(req, res, next) {
     if (!client.connected) { return res.status(502).json({ error: "MQTT client not connected" }) }
 
     const uuid = uuidv4();
     try {
         const dentistID = req.params.dentistID;
-        const publishTopic = "grp20/req/timeSlots/get";
+        const publishTopic = "grp20/req/availableTimes/get";
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
-            dentistID: dentistID,
+            dentist_id: dentistID,
             requestID: uuid
         }), (err) => { if (err) { next(err) } });
         mqttTimeout(uuid, 10000);
@@ -26,5 +26,5 @@ async function getDentistTimeslots(req, res, next) {
 }
 
 module.exports = {
-    getDentistTimeslots
+    getDentistAvailableTimes
 };
