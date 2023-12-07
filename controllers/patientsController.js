@@ -38,16 +38,14 @@ async function createPatient(req, res, next) {
 
     const uuid = uuidv4();
     try {
-        const name = req.body.name;
-        const ssn = req.body.ssn;
-        const email = req.body.email;
+        const username = req.body.username
+        const email = req.body.email
         const password = req.body.password
         const publishTopic = "grp20/req/patients/create";
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
-            name: name,
-            ssn: ssn,
+            username: username,
             email: email,
             password: password,
             requestID: uuid
@@ -71,13 +69,13 @@ async function loginPatient(req, res, next) {
 
     const uuid = uuidv4();
     try {
-        const email = req.body.email;
+        const username = req.body.username;
         const password = req.body.password
         const publishTopic = "grp20/req/patients/login";
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
-            email: email,
+            username: username,
             password: password,
             requestID: uuid
         }), (err) => {
@@ -99,23 +97,23 @@ async function updatePatient(req, res, next) {
     }
 
     const patientID = req.params.patientID;
-    const ssn = req.body.ssn;
-    const email = req.body.email;
-    const name = req.body.name;
+    const username = req.body.username;
+    const email = req.params.email
+    const password = req.body.password;
 
     const uuid = uuidv4();
     try {
         let UpdateInformation = []
-        if (name) {
-            payload.push({name: name})
-        }
-        if (ssn) {
-            payload.push({ssn: ssn})
+        if (username) {
+            payload.push({username: username})
         }
         if (email) {
             payload.push({email: email})
         }
-
+        if (password) {
+            payload.push({password: password})
+        }
+        
         const publishTopic = "grp20/req/patients/update";
 
         responseMap.set(uuid, res);
