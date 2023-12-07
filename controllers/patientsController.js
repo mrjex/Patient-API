@@ -11,12 +11,12 @@ async function getPatient(req, res, next) {
 
     const uuid = uuidv4();
     try {
-        const patientID = req.params.patientID;
+        const patient_id = req.params.patient_id;
         const publishTopic = "grp20/req/patients/get";
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
-            patientID: patientID,
+            patient_id: patient_id,
             requestID: uuid,
         }), (err) => {
             if (err) {
@@ -96,7 +96,7 @@ async function updatePatient(req, res, next) {
         return res.status(502).json({error: "MQTT client not connected"})
     }
 
-    const patientID = req.params.patientID;
+    const patient_id = req.params.patient_id;
     const username = req.body.username;
     const email = req.params.email
     const password = req.body.password;
@@ -119,8 +119,8 @@ async function updatePatient(req, res, next) {
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
             UpdateInformation: UpdateInformation,
-            patientID: patientID,
-            requestID: uuid
+            patient_id: patient_id,
+            request_id: uuid
         }), (err) => {
             if (err) {
                 next(err)
@@ -141,13 +141,13 @@ async function deletePatient(req, res, next) {
 
     const uuid = uuidv4();
     try {
-        const patientID = req.params.patientID;
+        const patient_id = req.params.patient_id;
         const publishTopic = "grp20/req/patients/delete"
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
-            patientID: patientID,
-            requestID: uuid
+            patient_id: patient_id,
+            request_id: uuid
         }), (err) => {
             if (err) {
                 next(err)

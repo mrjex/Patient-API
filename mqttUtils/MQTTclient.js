@@ -21,7 +21,7 @@ client.on("message", (topic, message) => {
         const messageJson = JSON.parse(message.toString());
         for (const key in messageHandlers) {
             if (topic.startsWith(key)) {
-                messageHandlers[key](client, messageJson);
+                messageHandlers[key](client, messageJson, topic);
                 break;
             }
         }

@@ -1,5 +1,6 @@
 const { responseMap, sendResponse } = require('./responseHandler');
 const { v4: uuidv4 } = require('uuid');
+const jwt = require('jsonwebtoken');
 
 
 //This map stores appointments awaiting additional dentist information, requestID is used as the key.
@@ -70,6 +71,9 @@ async function getDentistInfo(client, appointments, initialRequestID) {
 
 }
 
+async function generateJWT(patient_id) {
+    return jwt.sign({patient_id: patient_id}, process.env.TOKEN_SECRET, {expiresIn: '1800s'})
+}
 
 async function mqttTimeout(uuid, time) {
     setTimeout(() => {
@@ -89,5 +93,6 @@ module.exports = {
     getDentistInfo,
     mqttTimeout,
     appointmentsMap,
-    dentistRequestIDToRequestID
+    dentistRequestIDToRequestID,
+    generateJWT
 };

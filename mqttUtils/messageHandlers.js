@@ -1,5 +1,5 @@
 const { sendResponse } = require('./responseHandler');
-const {getDentistInfo, aggregateDentistInfo, appointmentsMap, dentistRequestIDToRequestID} = require('./requestUtils');
+const {getDentistInfo, aggregateDentistInfo, appointmentsMap, dentistRequestIDToRequestID, generateJWT} = require('./requestUtils');
 
 
 //defines topics and a corresponding message handler
@@ -50,11 +50,19 @@ async function handleDentistResponse(client, message) {
 
 }
 
-async function handlePatientResponse(client, message) {
+
+async function handlePatientResponse(client, message, topic) {
     try {
-        sendResponse(message);
+        if (message.hasOwnProperty('patient_id') && topic.endsWith('login')) {
+            const token = await generateJWT(message.patient_id);
+            message.JWTtoken = token;
+            sendResponse(message);
+        } else {
+            sendResponse(message);
+        }
     }
     catch (err) {
+        console.error(err);
     }
 }
 module.exports = {messageHandlers}
