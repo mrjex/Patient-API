@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { getClinics } = require('../controllers/clinics.js');
+const { getClinics } = require('../controllers/clinicController');
 
-router.get('/clinic/:coordinates', getClinics);
+router.get('/clinics', getClinics);
+
+module.exports = router

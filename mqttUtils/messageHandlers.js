@@ -7,7 +7,8 @@ const messageHandlers = {
     "grp20/res/appointments/": handleAppointmentResponse,
     "grp20/res/availableTimes/": handleAvailableTimesResponse,
     "grp20/res/dentists/": handleDentistResponse,
-    "grp20/res/patients/": handlePatientResponse
+    "grp20/res/patients/": handlePatientResponse,
+    "grp20/res/clinics/" : handleClinicResponse
 }
 
 async function handleAppointmentResponse(client, message) {
@@ -55,6 +56,14 @@ async function handlePatientResponse(client, message) {
         sendResponse(message);
     }
     catch (err) {
+    }
+}
+
+async function handleClinicResponse (client, message) {
+    try {
+        sendResponse(message);
+    } catch (error) {
+        console.error("handleClinicResponse:", err.message);
     }
 }
 module.exports = {messageHandlers}
