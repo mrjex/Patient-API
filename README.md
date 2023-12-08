@@ -42,6 +42,8 @@ In order to build and run the Patient API you need to type these commands in to 
 
 
 ```
+npm install // run this command if you have not already installed npm
+
 npm run dev
 ```
 Congratulations! You are now running the Patient API.
