@@ -51,7 +51,8 @@ async function handleDentistResponse(client, message) {
 
 }
 
-
+/* Function checks if topic is login topic, in that case it generates jwt and attaches to response. 
+if not or if the verification was not succesful (not patient_id in mqtt message) sends response normally.*/
 async function handlePatientResponse(client, message, topic) {
     try {
         if (message.hasOwnProperty('patient_id') && topic.endsWith('login')) {
