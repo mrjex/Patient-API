@@ -71,9 +71,7 @@ async function getDentistInfo(client, appointments, initialRequestID) {
 
 }
 
-async function generateJWT(patient_id) {
-    return jwt.sign({patient_id: patient_id}, process.env.TOKEN_SECRET, {expiresIn: '1800s'})
-}
+
 
 async function mqttTimeout(uuid, time) {
     setTimeout(() => {
@@ -93,6 +91,5 @@ module.exports = {
     getDentistInfo,
     mqttTimeout,
     appointmentsMap,
-    dentistRequestIDToRequestID,
-    generateJWT
+    dentistRequestIDToRequestID
 };
