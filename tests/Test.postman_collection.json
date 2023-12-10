@@ -13,16 +13,12 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"let responseJson = pm.response.json();",
 							"",
 							"pm.test(\"Response has correct status code\", () => {",
 							"    //assertion for correct status code",
-							"    pm.expect(pm.response.code).to.eql(502);",
+							"    pm.expect(pm.response.code).to.eql(401);",
 							"});",
-							"pm.test(\"Response has correct properties\", () => {",
-							"    // Assertion for response properties",
-							"    pm.expect(responseJson.error).to.eql(\"MQTT client not connected\")",
-							"});"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -32,22 +28,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/appointments/users/:invalidID'",
+					"raw": "http://localhost:3000/patients/",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
-						"appointments",
-						"users",
-						":invalidID'"
-					],
-					"variable": [
-						{
-							"key": "invalidID'",
-							"value": ""
-						}
+						"patients",
+						""
 					]
 				}
 			},

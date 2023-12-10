@@ -7,13 +7,15 @@ async function sendResponse(message) {
             const res = responseMap.get(message.requestID);
 
             if (res) {
+                console.log(message)
                 //Checks if the message contains a status code
                 if (message.hasOwnProperty("status")) {
-
-                    //Sends response with the provided status code & error message
-                    res.status(parseInt(message.status)).json({ error: message.error, })
-                } else {
-                    res.json(message);
+                    if (message.status !== 200 && message.status !== 201) {
+                        //Sends response with the provided status code & error message
+                        res.status(parseInt(message.status)).json({ message: message.message, })
+                    } else {
+                        res.json(message);
+                    }
                 }
                 responseMap.delete(message.requestID);
             } else { console.error("Response object not found for requestID: " + message.requestID) }
