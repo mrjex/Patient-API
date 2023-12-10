@@ -55,8 +55,8 @@ async function handleDentistResponse(client, message) {
 if not or if the verification was not succesful (not patient_id in mqtt message) sends response normally.*/
 async function handlePatientResponse(client, message, topic) {
     try {
-        if (message.hasOwnProperty('patient_id') && topic.endsWith('login')) {
-            const token = generateJWT(message.patient_id);
+        if (message.hasOwnProperty('patient') && topic.endsWith('login')) {
+            const token = generateJWT(message.patient._id);
             message.JWTtoken = token;
             sendResponse(message);
         } else {
