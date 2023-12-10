@@ -6,6 +6,6 @@ const { getDentists, getDentist } = require('../controllers/dentistController');
 router.get('/', getDentists);
 
 // GET dentist with dentistID
-router.get('/:dentistsID', getDentist);
+router.get('/:dentist_id', getDentist);
 
 module.exports = router;
