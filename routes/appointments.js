@@ -5,7 +5,7 @@ const { authenticateJWT } = require('../authentication/authentication');
 
 
 /* GET appointments with matching patientID. */
-router.get('/users/:patientID', authenticateJWT, getUsersAppointments);
+router.get('/users/', authenticateJWT, getUsersAppointments);
 
 /* POST appointment using a patientID and appointmentID*/
 router.post('/', authenticateJWT, createAppointment);
