@@ -11,7 +11,7 @@ async function getPatient(req, res, next) {
 
     const uuid = uuidv4();
     try {
-        const patient_id = req.params.patient_id;
+        const patient_id = req.patient.patient_id;
         const publishTopic = "grp20/req/patients/get";
 
         responseMap.set(uuid, res);
@@ -96,7 +96,7 @@ async function updatePatient(req, res, next) {
         return res.status(502).json({error: "MQTT client not connected"})
     }
 
-    const patient_id = req.params.patient_id;
+    const patient_id = req.patient.patient_id;
     const username = req.body.username;
     const email = req.params.email
     const password = req.body.password;
@@ -141,7 +141,7 @@ async function deletePatient(req, res, next) {
 
     const uuid = uuidv4();
     try {
-        const patient_id = req.params.patient_id;
+        const patient_id = req.patient.patient_id;
         const publishTopic = "grp20/req/patients/delete"
 
         responseMap.set(uuid, res);
