@@ -15,9 +15,14 @@ async function handleAppointmentResponse(client, message) {
     try {
         const requestID = message.requestID;
         const appointments = message.appointments;
-        appointmentsMap.set(requestID, appointments)
 
-        getDentistInfo(client, appointments, requestID);
+        if (!appointments) {
+            sendResponse(message);
+        } else {
+            appointmentsMap.set(requestID, appointments)
+            getDentistInfo(client, appointments, requestID);
+        }
+
     }
     catch (err) {
         console.error("handleAppointmentResponse:", err.message);
