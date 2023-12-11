@@ -24,7 +24,7 @@ async function getClinics(req, res, next) {
                 next(err)
             }
         });
-        await mqttTimeout(uuid, 1000000)
+        await mqttTimeout(uuid, 10000)
     } catch (err) {
         responseMap.delete(uuid);
         next(err);
@@ -50,7 +50,7 @@ async function getClinicById(req, res, next) {
                 next(err)
             }
         });
-        await mqttTimeout(uuid, 1000000)
+        await mqttTimeout(uuid, 10000)
     } catch (err) {
         responseMap.delete(uuid);
         next(err);

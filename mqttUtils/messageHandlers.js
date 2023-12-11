@@ -6,7 +6,7 @@ const { generateJWT } = require('../authentication/authentication');
 //defines topics and a corresponding message handler
 const messageHandlers = {
     "grp20/res/appointments/": handleAppointmentResponse,
-    "grp20/res/availableTimes/": handleAvailableTimesResponse,
+    "grp20/res/availabletimes/": handleAvailableTimesResponse,
     "grp20/res/dentists/": handleDentistResponse,
     "grp20/res/patients/": handlePatientResponse,
     "grp20/res/clinics/" : handleClinicResponse
