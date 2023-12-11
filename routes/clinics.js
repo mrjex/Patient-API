@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { getClinics } = require('../controllers/clinicController');
+const { getClinics, getClinicById } = require('../controllers/clinicController');
 
-router.get('/clinics', getClinics);
+router.get('/', getClinics);
+
+router.get('/:clinic_id', getClinicById);
 
 module.exports = router

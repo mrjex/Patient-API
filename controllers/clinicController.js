@@ -30,8 +30,33 @@ async function getClinics(req, res, next) {
         next(err);
     }
 }
+//Get specific clinic (should this be based on coordinates?)
+async function getClinicById(req, res, next) {
 
+    if (!client.connected){
+        return res.status(502).json({error: "MQTT client not connected"})
+    }
+    const clinic_id = req.params.clinic_id;
+    const uuid = uuidv4();
 
+    try {
+        const publishTopic = "grp20/req/clinics/get";
+        responseMap.set(uuid, res);
+        client.publish(publishTopic, JSON.stringify({
+            requestID: uuid,
+            clinic_id: clinic_id
+        }), (err) => {
+            if (err) {
+                next(err)
+            }
+        });
+        await mqttTimeout(uuid, 1000000)
+    } catch (err) {
+        responseMap.delete(uuid);
+        next(err);
+    }
+}
 module.exports = {
-    getClinics
+    getClinics,
+    getClinicById
 }
