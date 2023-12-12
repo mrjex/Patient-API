@@ -11,7 +11,9 @@ const messageHandlers = {
     "grp20/res/patients/": handlePatientResponse,
     "grp20/res/clinics/" : handleClinicResponse,
     "grp20/res/notification/": handleSubscriberResponse,
-    "grp20/res/subscriber/": handleSubscriberResponse
+    "grp20/res/subscriber/": handleSubscriberResponse,
+    // "grp20/req/map/": handleMapResponse
+    "grp20/res/map": handleMapResponse
 }
 
 async function handleAppointmentResponse(client, message) {
@@ -35,6 +37,15 @@ async function handleAppointmentResponse(client, message) {
 }
 
 async function handleAvailableTimesResponse(client, message) {
+    try {
+        sendResponse(message);
+    }
+    catch (err) {
+        console.error("handleAppointmentResponse:", err.message);
+    }
+}
+
+async function handleMapResponse(client, message) {
     try {
         sendResponse(message);
     }
