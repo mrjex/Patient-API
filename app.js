@@ -11,6 +11,7 @@ var availableTimes = require('./routes/availableTimes')
 var dentistsRouter = require('./routes/dentists')
 var patientsRouter = require('./routes/patients')
 var clinicsRouter = require('./routes/clinics')
+var subscriberRouter = require('./routes/emailSubscriber')
 
 var app = express();
 const cors = require('cors');
@@ -32,6 +33,7 @@ app.use('/availableTimes', availableTimes)
 app.use('/dentists', dentistsRouter)
 app.use('/patients', patientsRouter)
 app.use('/clinics', clinicsRouter)
+app.use('/subscriber', subscriberRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
