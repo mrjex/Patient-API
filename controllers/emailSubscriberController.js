@@ -3,8 +3,6 @@ const { client } = require("../mqttUtils/MQTTclient");
 const { responseMap } = require('../mqttUtils/responseHandler')
 const { mqttTimeout } = require('../mqttUtils/requestUtils')
 
-//This controller will handle all interactions pertaining to fetching clinics
-
 //Get a subscriber
 async function getSubscriberByID(req, res, next) {
 
