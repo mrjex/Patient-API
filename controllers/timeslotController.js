@@ -10,7 +10,7 @@ async function getDentistAvailableTimes(req, res, next) {
     const uuid = uuidv4();
     try {
         const dentist_id = req.params.dentist_id;
-        const publishTopic = "grp20/req/availableTimes/get";
+        const publishTopic = "grp20/req/availabletimes/get";
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
@@ -25,6 +25,32 @@ async function getDentistAvailableTimes(req, res, next) {
     }
 }
 
+async function getClinicAvailableTimesTimeWindow(req, res, next) {
+    if (!client.connected) { return res.status(502).json({ error: "MQTT client not connected" }) }
+
+    const uuid = uuidv4();
+    try {
+        const clinics = req.body.clinics;
+        const start_time = req.body.start_time;
+        const end_time = req.body.end_time;
+        const publishTopic = "grp20/req/availabletimes/get";
+
+        responseMap.set(uuid, res);
+        client.publish(publishTopic, JSON.stringify({
+            clinics: clinics,
+            requestID: uuid,
+            start_time: start_time,
+            end_time: end_time
+        }), (err) => { if (err) { next(err) } });
+        mqttTimeout(uuid, 10000);
+    }
+    catch (err) {
+        responseMap.delete(uuid);
+        next(err);
+    }
+}
+
 module.exports = {
-    getDentistAvailableTimes
+    getDentistAvailableTimes,
+    getClinicAvailableTimesTimeWindow
 };
