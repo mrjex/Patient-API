@@ -17,6 +17,7 @@ async function sendResponse(message) {
                         res.json(message);
                     }
                 }
+
                 responseMap.delete(message.requestID);
             } else { console.error("Response object not found for requestID: " + message.requestID) }
         }

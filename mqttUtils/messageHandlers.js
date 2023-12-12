@@ -12,8 +12,7 @@ const messageHandlers = {
     "grp20/res/clinics/" : handleClinicResponse,
     "grp20/res/notification/": handleSubscriberResponse,
     "grp20/res/subscriber/": handleSubscriberResponse,
-    // "grp20/req/map/": handleMapResponse
-    "grp20/res/map": handleMapResponse
+    "grp20/req/map/": handleMapResponse
 }
 
 async function handleAppointmentResponse(client, message) {
@@ -47,6 +46,7 @@ async function handleAvailableTimesResponse(client, message) {
 
 async function handleMapResponse(client, message) {
     try {
+        console.log("map response!")
         sendResponse(message);
     }
     catch (err) {

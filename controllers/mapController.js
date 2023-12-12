@@ -10,15 +10,13 @@ async function getNearbyRadiusClinics(req, res, next) {
         return res.status(502).json({error: "MQTT client not connected"})
     }
 
-    console.log('in getNearbyRadiusClinics()')
-
     const uuid = uuidv4();
 
     try {
         const radius = req.params.radius
         const reference_position = req.params.coordinates
 
-        const publishTopic = "grp20/req/map/test"; // grp20/req/map/query/nearby/radius/get
+        const publishTopic = "grp20/req/map/query/nearby/radius/get";
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
             radius: radius,
