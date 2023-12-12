@@ -15,12 +15,12 @@ async function getSubscriberByID(req, res, next) {
     const uuid = uuidv4();
 
     try {
-        const patient_id = req.patient.patient_id
+        const patient_ID = req.patient.patient_id
         const publishTopic = "grp20/req/subscriber/get";
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
             requestID: uuid,
-            patient_id: patient_id
+            patient_ID: patient_ID
         }), (err) => {
             if (err) {
                 next(err)
@@ -43,15 +43,15 @@ async function createSubscriber(req, res, next) {
     const uuid = uuidv4();
 
     try {
-        const patient_id = req.patient.patient_id;
-        const email = req.body.email
+        const patient_ID = req.patient.patient_id;
+        const email = req.body.email;
         const clinic = req.body.clinic;
         const publishTopic = "grp20/req/notification/sub"
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
             requestID: uuid,
-            patient_id: patient_id,
+            patient_ID: patient_ID,
             email: email,
             clinic: clinic
         }), (err) => {
@@ -76,12 +76,12 @@ async function deleteSubscriber(req, res, next) {
     const uuid = uuidv4();
 
     try {
-        const patient_id = req.patient.patient_id
+        const patient_ID = req.patient.patient_id
         const publishTopic = "grp20/req/notification/unsub";
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
             requestID: uuid,
-            patient_id: patient_id
+            patient_ID: patient_ID
         }), (err) => {
             if (err) {
                 next(err)
