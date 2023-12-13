@@ -46,7 +46,6 @@ async function handleAvailableTimesResponse(client, message) {
 
 async function handleMapResponse(client, message) {
     try {
-        console.log("map response!")
         sendResponse(message);
     }
     catch (err) {
