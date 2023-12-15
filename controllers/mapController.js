@@ -16,8 +16,6 @@ async function getNearbyRadiusClinics(req, res, next) {
         const radius = req.params.radius
         const reference_position = req.params.coordinates
 
-        console.log('GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG')
-
         const publishTopic = "grp20/req/map/query/nearby/radius/get";
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
