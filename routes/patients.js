@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {getPatient, createPatient, loginPatient, updatePatient, deletePatient} = require('../controllers/patientsController.js');
+const {getPatient, getPatientEmail, createPatient, loginPatient, updatePatient, deletePatient} = require('../controllers/patientsController.js');
 const { authenticateJWT } = require('../authentication/authentication');
 
 
@@ -8,6 +8,9 @@ const { authenticateJWT } = require('../authentication/authentication');
 
 // Get patient with specified patientID
 router.get('/', authenticateJWT, getPatient);
+
+// Get patient email with specified patientID
+router.get('/:patient_id', getPatientEmail);
 
 // Create  a new patient/user
 router.post('/', createPatient);
