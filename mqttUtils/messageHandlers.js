@@ -5,11 +5,12 @@ const { generateJWT } = require('../authentication/authentication');
 
 //defines topics and a corresponding message handler
 const messageHandlers = {
-    "grp20/res/appointments/": handleAppointmentResponse,
+    "grp20/res/appointment/": handleAppointmentResponse,
+    "grp20/res/timeslots/": handleAppointmentResponse,
     "grp20/res/availabletimes/": handleAvailableTimesResponse,
     "grp20/res/dentists/": handleDentistResponse,
     "grp20/res/patients/": handlePatientResponse,
-    "grp20/res/clinics/" : handleClinicResponse,
+    "grp20/res/dental/clinics/" : handleClinicResponse,
     "grp20/res/notification/": handleSubscriberResponse,
     "grp20/res/subscriber/": handleSubscriberResponse
 }
