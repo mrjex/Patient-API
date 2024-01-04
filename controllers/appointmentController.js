@@ -53,7 +53,6 @@ async function createAppointment(req, res, next) {
 DELETE appointment using an appointmentID*/
 async function cancelAppointment(req, res, next) {
     if (!client.connected) { return res.status(502).json({ error: "MQTT client not connected" }) }
-
     const uuid = uuidv4();
     try {
         const appointmentID = req.params.appointmentID;
@@ -63,7 +62,7 @@ async function cancelAppointment(req, res, next) {
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
             patient_id: patient_id,
-            appointment_id: appointmentID,
+            _id: appointmentID,
             requestID: uuid
         }), (err) => { if (err) { next(err) } });
         mqttTimeout(uuid, 10000)

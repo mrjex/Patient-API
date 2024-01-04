@@ -117,7 +117,7 @@ async function getClinicInfo(client, appointments, initialRequestID) {
 
             const clinic_id = appointment.clinic_id;
             client.publish(publishTopic, JSON.stringify({
-                _id: clinic_id,
+                clinic_id: clinic_id,
                 requestID: uuid
             }), (err) => {
                 if (err) {
