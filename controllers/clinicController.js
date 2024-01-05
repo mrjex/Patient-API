@@ -40,7 +40,7 @@ async function getClinicById(req, res, next) {
     const uuid = uuidv4();
 
     try {
-        const publishTopic = "grp20/req/clinics/get";
+        const publishTopic = "grp20/req/dental/clinics/get";
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
             requestID: uuid,
