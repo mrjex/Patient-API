@@ -30,6 +30,33 @@ async function getPatient(req, res, next) {
     }
 }
 
+// Get patients email with matching patientID
+async function getPatientEmail(req, res, next) {
+    if (!client.connected) {
+        return res.status(502).json({error: "MQTT client not connected"})
+    }
+
+    const uuid = uuidv4();
+    try {
+        const patient_id = req.params.patient_id;
+        const publishTopic = "grp20/req/patients/get";
+
+        responseMap.set(uuid, res);
+        client.publish(publishTopic, JSON.stringify({
+            _id: patient_id,
+            requestID: uuid,
+        }), (err) => {
+            if (err) {
+                next(err)
+            }
+        });
+        await mqttTimeout(uuid, 10000)
+    } catch (err) {
+        responseMap.delete(uuid);
+        next(err);
+    }
+}
+
 // Create patient with information from form.
 async function createPatient(req, res, next) {
     if (!client.connected) {
@@ -165,5 +192,6 @@ module.exports = {
     createPatient,
     loginPatient,
     updatePatient,
-    deletePatient
+    deletePatient,
+    getPatientEmail
 };
