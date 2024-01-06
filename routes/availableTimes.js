@@ -5,6 +5,6 @@ const { getDentistAvailableTimes, getClinicAvailableTimesTimeWindow } = require(
 /* GET timeslots with matching dentist ID.*/
 router.get('/dentists/:dentist_id', getDentistAvailableTimes);
 
-router.get('/clinics', getClinicAvailableTimesTimeWindow);
+router.get('/clinics/', getClinicAvailableTimesTimeWindow);
 
 module.exports = router;

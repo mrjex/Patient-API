@@ -30,14 +30,16 @@ async function getClinicAvailableTimesTimeWindow(req, res, next) {
 
     const uuid = uuidv4();
     try {
-        const clinics = req.body.clinics;
-        const start_time = req.body.start_time;
-        const end_time = req.body.end_time;
-        const publishTopic = "grp20/req/availabletimes/get";
+        const clinics = req.query.clinics;
 
+        
+        const start_time = new Date(req.query.start_time).toISOString();
+        const end_time = new Date(req.query.end_time).toISOString();
+        const clinicsArray = clinics.split(',');
+        const publishTopic = "grp20/req/availabletimes/get";
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
-            clinics: clinics,
+            clinics: clinicsArray,
             requestID: uuid,
             start_time: start_time,
             end_time: end_time
@@ -45,6 +47,7 @@ async function getClinicAvailableTimesTimeWindow(req, res, next) {
         mqttTimeout(uuid, 10000);
     }
     catch (err) {
+        console.log(err)
         responseMap.delete(uuid);
         next(err);
     }
