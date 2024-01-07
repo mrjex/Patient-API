@@ -1,15 +1,13 @@
 const mqtt = require("mqtt");
 const { messageHandlers } = require('./messageHandlers');
+const mockMqttClient = require('./test/testMQTTclient');
 
 
 const mqttOptions = {
     host: process.env.MQTT_HOST,
-    port: process.env.MQTT_PORT,
-    protocol: process.env.MQTT_PROTOCOL,
-    username: process.env.MQTT_USERNAME,
-    password: process.env.MQTT_PASSWORD
+    port: process.env.MQTT_PORT
 };
-const client = mqtt.connect(mqttOptions);
+const client = process.env.TEST_MODE ? mockMqttClient: mqtt.connect(mqttOptions);
 
 //Generates a list of topics for the MQTT client from messageHandlers keys.
 const subscribeTopics = Object.keys(messageHandlers).map(topic => topic + '+');
