@@ -16,7 +16,7 @@ async function getPatient(req, res, next) {
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
-            patient_id: patient_id,
+            _id: patient_id,
             requestID: uuid,
         }), (err) => {
             if (err) {
