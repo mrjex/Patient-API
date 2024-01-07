@@ -17,11 +17,12 @@ class testMQTTclient {
                     message = JSON.stringify(messageobj)
                     this.messageHandler(topic, message)
                 }
-
+                if (callback) {
+                    callback(null)
+                }
             } catch (err) {
                 console.error(err)
             }
-           
         })
     }
     on(event, handler) {
