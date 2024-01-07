@@ -125,29 +125,29 @@ async function updatePatient(req, res, next) {
 
     const patient_id = req.patient.patient_id;
     const username = req.body.username;
-    const email = req.params.email
+    const email = req.body.email
     const password = req.body.password;
 
     const uuid = uuidv4();
     try {
         let UpdateInformation = []
         if (username) {
-            payload.push({username: username})
+            UpdateInformation.push({username: username})
         }
         if (email) {
-            payload.push({email: email})
+            UpdateInformation.push({email: email})
         }
         if (password) {
-            payload.push({password: password})
+            UpdateInformation.push({password: password})
         }
         
         const publishTopic = "grp20/req/patients/update";
-
+        console.log(UpdateInformation)
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
             UpdateInformation: UpdateInformation,
             patient_id: patient_id,
-            request_id: uuid
+            requestID: uuid
         }), (err) => {
             if (err) {
                 next(err)
@@ -174,7 +174,7 @@ async function deletePatient(req, res, next) {
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
             patient_id: patient_id,
-            request_id: uuid
+            requestID: uuid
         }), (err) => {
             if (err) {
                 next(err)
