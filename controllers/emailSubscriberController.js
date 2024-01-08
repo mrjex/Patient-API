@@ -64,6 +64,37 @@ async function createSubscriber(req, res, next) {
     }
 }
 
+//update a subscriber
+async function updateSubscriber(req, res, next) {
+
+    if (!client.connected){
+        return res.status(502).json({error: "MQTT client not connected"})
+    }
+ 
+    const uuid = uuidv4();
+ 
+    try {
+        const patient_ID = req.patient.patient_id;
+        const clinic = req.body.clinic;
+        const publishTopic = "grp20/req/subscriber/update"
+ 
+        responseMap.set(uuid, res);
+        client.publish(publishTopic, JSON.stringify({
+            requestID: uuid,
+            patient_ID: patient_ID,
+            clinic: clinic
+        }), (err) => {
+            if (err) {
+                next(err)
+            }
+        });
+        await mqttTimeout(uuid, 1000000)
+    } catch (err) {
+        responseMap.delete(uuid);
+        next(err);
+    }
+ } 
+
 //Delete a subscriber
 async function deleteSubscriber(req, res, next) {
 
@@ -93,5 +124,5 @@ async function deleteSubscriber(req, res, next) {
 }
 
 module.exports = {
-    getSubscriberByID, createSubscriber, deleteSubscriber
+    getSubscriberByID, createSubscriber, deleteSubscriber, updateSubscriber
 }
