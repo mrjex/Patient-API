@@ -8,6 +8,7 @@ cache:
 stages:
   - build
   - test
+  - deploy
 
 build:
   stage: build
@@ -22,3 +23,16 @@ test:
     - docker
   script:
     - npm run ci-test
+
+deploy:
+  only:
+    - main
+  image: ruby:3.3.0
+  tags:
+    - docker
+  stage: deploy
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_PRODUCTION_KEY
