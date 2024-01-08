@@ -11,7 +11,7 @@ async function getUsersAppointments(req, res, next) {
     const uuid = uuidv4();
     try {
         const patient_id = req.patient.patient_id;
-        const publishTopic = "grp20/req/appointments/get";
+        const publishTopic = "grp20/req/timeslots/get";
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
@@ -32,13 +32,13 @@ async function createAppointment(req, res, next) {
 
     const uuid = uuidv4();
     try {
-        const availableTimes_id = req.body.availableTimes_id;
+        const availableTimes_id = req.body.availableTime_id;
         const patient_id = req.patient.patient_id;
-        const publishTopic = "grp20/req/appointments/post"
+        const publishTopic = "grp20/req/availabletimes/book"
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
-            availableTimes_id: availableTimes_id,
+            _id: availableTimes_id,
             patient_id: patient_id,
             requestID: uuid
         }), (err) => { if (err) { next(err) } });
@@ -53,17 +53,16 @@ async function createAppointment(req, res, next) {
 DELETE appointment using an appointmentID*/
 async function cancelAppointment(req, res, next) {
     if (!client.connected) { return res.status(502).json({ error: "MQTT client not connected" }) }
-
     const uuid = uuidv4();
     try {
         const appointmentID = req.params.appointmentID;
-        const publishTopic = "grp20/req/appointments/delete"
+        const publishTopic = "grp20/req/appointment/delete"
         const patient_id = req.patient.patient_id;
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
             patient_id: patient_id,
-            appointment_id: appointmentID,
+            _id: appointmentID,
             requestID: uuid
         }), (err) => { if (err) { next(err) } });
         mqttTimeout(uuid, 10000)

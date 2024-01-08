@@ -91,7 +91,7 @@ async function getDentistInfo(client, appointments, initialRequestID) {
 
             const dentist_id = appointment.dentist_id;
             client.publish(publishTopic, JSON.stringify({
-                dentist_id: dentist_id,
+                _id: dentist_id,
                 requestID: uuid
             }), (err) => {
                 if (err) {
@@ -108,7 +108,7 @@ async function getDentistInfo(client, appointments, initialRequestID) {
 
 async function getClinicInfo(client, appointments, initialRequestID) {
     try {
-        const publishTopic = "grp20/req/clinics/get";
+        const publishTopic = "grp20/req/dental/clinics/get/one";
         for (const appointment of appointments) {
             const uuid = uuidv4();
             appointment.clinicRequestID = uuid;
