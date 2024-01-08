@@ -40,7 +40,7 @@ async function getDentist(req, res, next) {
     const uuid = uuidv4();
     try {
         const dentist_id = req.params.dentist_id
-        const publishTopic = "grp20/req/dentists/read";
+        const publishTopic = "grp20/req/dentists/get";
 
         responseMap.set(uuid, res);
         client.publish(publishTopic, JSON.stringify({
