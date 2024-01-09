@@ -1,6 +1,6 @@
 const mqtt = require("mqtt");
 const { messageHandlers } = require('./messageHandlers');
-const mockMqttClient = require('./test/testMQTTclient');
+const mockMqttClient = require('./test/testMQTTclient.test');
 
 
 const mqttOptions = {
