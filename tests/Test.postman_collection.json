@@ -1,22 +1,22 @@
 {
 	"info": {
-		"_postman_id": "8530e532-517a-4509-9ccc-3f8603b86c1b",
-		"name": "Test",
+		"_postman_id": "1c18e547-a1b1-4116-8eb5-3377aa6110b8",
+		"name": "API tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "30165696"
 	},
 	"item": [
 		{
-			"name": "test-request",
+			"name": "Get appointment",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"",
-							"pm.test(\"Response has correct status code\", () => {",
-							"    //assertion for correct status code",
-							"    pm.expect(pm.response.code).to.eql(401);",
+							"JsonRes = pm.response.json();",
+							"pm.test(\"Response has correct message body\", () => {",
+							"    pm.expect(JsonRes.patient_id).to.eql('testPatientId');",
+							"    pm.expect(JsonRes.appointment).to.eql('testappointment');",
 							"});",
 							""
 						],
@@ -26,6 +26,771 @@
 			],
 			"request": {
 				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/appointments/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"appointments",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post appointment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"JsonRes = pm.response.json();",
+							"pm.test(\"Response has correct message body\", () => {",
+							"    pm.expect(JsonRes.patient_id).to.eql('testPatientId');",
+							"    pm.expect(JsonRes.appointment).to.eql('testappointment');",
+							"    pm.expect(JsonRes._id).to.eql('testId');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"availableTime_id\": \"testId\",\n    \"patient_id\": \"patientTestId\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/appointments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"appointments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete appointment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"JsonRes = pm.response.json();",
+							"pm.test(\"Response has correct message body\", () => {",
+							"    pm.expect(JsonRes.patient_id).to.eql('testPatientId');",
+							"    pm.expect(JsonRes.appointment).to.eql('testappointment');",
+							"    pm.expect(JsonRes._id).to.eql('testId');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/appointments/testId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"appointments",
+						"testId"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get availabletime",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"JsonRes = pm.response.json();",
+							"pm.test(\"Response has correct message body\", () => {",
+							"    pm.expect(JsonRes.dentist_id).to.eql('dentistId');",
+							"    pm.expect(JsonRes.appointment).to.eql('testappointment');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/availabletimes/dentists/dentistId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"availabletimes",
+						"dentists",
+						"dentistId"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get availabletime timeWindow",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"JsonRes = pm.response.json();",
+							"pm.test(\"Response has correct message body\", () => {",
+							"    pm.expect(JsonRes.clinics[0]).to.eql('clinic1');",
+							"    pm.expect(JsonRes.clinics[1]).to.eql('clinic2');",
+							"    pm.expect(JsonRes.start_time).to.eql('2024-01-07T00:00:00.000Z');",
+							"    pm.expect(JsonRes.end_time).to.eql('2024-01-08T00:00:00.000Z');",
+							"",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/availabletimes/clinics/?clinics=clinic1,clinic2&start_time=2024-01-07&end_time=2024-01-08",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"availabletimes",
+						"clinics",
+						""
+					],
+					"query": [
+						{
+							"key": "clinics",
+							"value": "clinic1,clinic2"
+						},
+						{
+							"key": "start_time",
+							"value": "2024-01-07"
+						},
+						{
+							"key": "end_time",
+							"value": "2024-01-08"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get clinics",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"JsonRes = pm.response.json();",
+							"pm.test(\"Response has correct message body\", () => {",
+							"    pm.expect(JsonRes.clinic).to.eql('testclinic');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/clinics",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"clinics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get clinics by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"JsonRes = pm.response.json();",
+							"pm.test(\"Response has correct message body\", () => {",
+							"    pm.expect(JsonRes.clinic_id).to.eql('clinicId');",
+							"",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/clinics/clinicId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"clinics",
+						"clinicId"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get clinics by radius",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"JsonRes = pm.response.json();",
+							"pm.test(\"Response has correct message body\", () => {",
+							"    pm.expect(JsonRes.radius).to.eql('1');",
+							"    pm.expect(JsonRes.reference_position).to.eql('2,2');",
+							"",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/clinics/radius/positions?radius=1&coordinates=2,2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"clinics",
+						"radius",
+						"positions"
+					],
+					"query": [
+						{
+							"key": "radius",
+							"value": "1"
+						},
+						{
+							"key": "coordinates",
+							"value": "2,2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get clinics Nearby number",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"JsonRes = pm.response.json();",
+							"pm.test(\"Response has correct message body\", () => {",
+							"    pm.expect(JsonRes.reference_position).to.eql('2,2');",
+							"    pm.expect(JsonRes.nearby_clinics_number).to.eql('1');",
+							"",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/clinics/number/positions?number=1&coordinates=2,2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"clinics",
+						"number",
+						"positions"
+					],
+					"query": [
+						{
+							"key": "number",
+							"value": "1"
+						},
+						{
+							"key": "coordinates",
+							"value": "2,2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get dentist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"JsonRes = pm.response.json();",
+							"pm.test(\"Response has correct message body\", () => {",
+							"    pm.expect(JsonRes.dentist).to.eql('testdentist');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/dentists/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"dentists",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get dentist id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"JsonRes = pm.response.json();",
+							"pm.test(\"Response has correct message body\", () => {",
+							"    pm.expect(JsonRes.dentist).to.eql('testdentist');",
+							"    pm.expect(JsonRes._id).to.eql('dentistId');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/dentists/dentistId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"dentists",
+						"dentistId"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get subscriber id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"JsonRes = pm.response.json();",
+							"pm.test(\"Response has correct message body\", () => {",
+							"    pm.expect(JsonRes.patient).to.eql('testPatient');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/subscriber/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"subscriber",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post subscriber id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"JsonRes = pm.response.json();",
+							"pm.test(\"Response has correct message body\", () => {",
+							"    pm.expect(JsonRes.patient).to.eql('testPatient');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/subscriber/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"subscriber",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete subscriber id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"JsonRes = pm.response.json();",
+							"pm.test(\"Response has correct message body\", () => {",
+							"    pm.expect(JsonRes.patient).to.eql('testPatient');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/subscriber/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"subscriber",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get patient",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"JsonRes = pm.response.json();",
+							"pm.test(\"Response has correct message body\", () => {",
+							"    pm.expect(JsonRes.patient).to.eql('testpatient');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/patients/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"patients",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get patient email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"JsonRes = pm.response.json();",
+							"pm.test(\"Response has correct message body\", () => {",
+							"    pm.expect(JsonRes._id).to.eql('testid');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/patients/testid",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"patients",
+						"testid"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create patient",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"JsonRes = pm.response.json();",
+							"pm.test(\"Response has correct message body\", () => {",
+							"    pm.expect(JsonRes.username).to.eql('tester');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"tester\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/patients/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"patients",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patient Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"JsonRes = pm.response.json();",
+							"pm.test(\"Response has correct message body\", () => {",
+							"    pm.expect(JsonRes.username).to.eql('tester');",
+							"    pm.expect(JsonRes.password).to.eql('password');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"tester\",\n    \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/patients/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"patients",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch patient",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"JsonRes = pm.response.json();",
+							"pm.test(\"Response has correct message body\", () => {",
+							"    pm.expect(JsonRes.UpdateInformation[0].username).to.eql('tester');",
+							"    pm.expect(JsonRes.UpdateInformation[1].email).to.eql('testermail');",
+							"    pm.expect(JsonRes.UpdateInformation[2].password).to.eql('password');",
+							"",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"tester\",\n    \"password\": \"password\",\n    \"email\": \"testermail\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/patients/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"patients",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patient Login Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"JsonRes = pm.response.json();",
+							"pm.test(\"Response has correct message body\", () => {",
+							"    pm.expect(JsonRes.patient_id).to.eql('testPatientId');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
 				"header": [],
 				"url": {
 					"raw": "http://localhost:3000/patients/",

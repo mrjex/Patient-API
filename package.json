@@ -6,7 +6,7 @@
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
     "test": "newman run ./tests/Test.postman_collection.json",
-    "ci-test": "npm run start & wait-on http://localhost:3000 && npm run test"
+    "ci-test": "TEST_MODE=true npm run start & wait-on http://localhost:3000 && npm run test"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.1",
+    "sinon": "^17.0.1",
     "wait-on": "^7.2.0"
   }
 }
