@@ -21,7 +21,7 @@ async function handleAppointmentResponse(client, message) {
         const requestID = message.requestID;
         const appointments = message.appointments;
 
-        if (!appointments) {
+        if (!appointments || appointments.length === 0) {
             sendResponse(message);
         } else {
             appointmentsMap.set(requestID, appointments);
