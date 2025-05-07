@@ -1,8 +1,29 @@
 # Patient API
 
+> ⚠️ **Disclaimer**: This is a **fork** of [Patient API](https://github.com/Dentanoid/Patient-API), originally created and maintained by the [Dentanoid Organization](https://github.com/Dentanoid)
+
 Welcome to the Patient API! This serves as the main hub of communication between the patient client and the different services of the dentanoid system.
 
-For information on how to run the API check out [Getting started](#getting-started).
+## Table of contents
+
+- [Patient API](#patient-api)
+  - [About the API](#about-the-api)
+    - [Aggregation of data](#aggregation-of-data)
+    - [Authentication](#authentication)
+    - [MQTT test client](#mqtt-test-client)
+    - [How the API handles mqtt messages](#how-the-api-handles-mqtt-messages)
+    - [Extending and modifying functionality](#extending-and-modifying-functionality)
+  - [Table of contents](#table-of-contents)
+  - [Getting started](#getting-started)
+    - [Installing NodeJS using BREW (if you dont have NodeJS)](#installing-nodejs-using-brew-if-you-dont-have-nodejs)
+      - [Install brew](#install-brew)
+      - [Install NodeJS with brew](#install-nodejs-with-brew)
+    - [Add .env file (in the root folder)](#add-env-file-in-the-root-folder)
+    - [Run Patient API](#run-patient-api)
+  - [Roadmap](#roadmap)
+  - [Authors and acknowledgment](#authors-and-acknowledgment)
+  - [Project status](#project-status)
+
 
 ## About the API
 
@@ -10,7 +31,7 @@ As previously mentioned the Patient API serves as the middleman between the clie
 
 ### Aggregation of data
 
-The API aggregates some data for the user, when fetching all of a users appointments, it is reasonable to assume that the user would also be interested in fetching the dentist and clinic connected to that specific appointment. Because of this the API then fetches this information from the the clinic and user service, and amends it to the appointment information before sending the response. This is done in order to reduce the amount of requests needed to be sent to the API.
+The API aggregates some data for the user, when fetching all of a user's appointments, it is reasonable to assume that the user would also be interested in fetching the dentist and clinic connected to that specific appointment. Because of this, the API then fetches this information from the the clinic and user service, and amends it to the appointment information before sending the response. This is done in order to reduce the amount of requests needed to be sent to the API.
 
 This type of aggregation of data is only applied for a users appointments currently, but there is potential for expanding this further in the future if the need for it arises.
 
@@ -34,26 +55,6 @@ When the API gets a mqtt message from a service, it in essence parses the messag
 Mqtt subscription topics are handled centrally in ```messageHandlers.js```, in order to add a new topic just add a topic with a corresponding message to the ```messageHandlers``` object along with a corresponding message handler function. This method should ideally pass the message along to the sendResponse function from ```responseHandler.js```, which will parse the status code of the message, match it with a response object and lastly send a response to the initial HTTP request.
 
 The publishing of MQTT messages is handled by the controllers in the controller folder. This is also where the response object is stored and the request id is generated. These controllers are triggered by the routes in the route folder.
-
-## Table of contents
-
-- [Patient API](#patient-api)
-  - [About the API](#about-the-api)
-    - [Aggregation of data](#aggregation-of-data)
-    - [Authentication](#authentication)
-    - [MQTT test client](#mqtt-test-client)
-    - [How the API handles mqtt messages](#how-the-api-handles-mqtt-messages)
-    - [Extending and modifying functionality](#extending-and-modifying-functionality)
-  - [Table of contents](#table-of-contents)
-  - [Getting started](#getting-started)
-    - [Installing NodeJS using BREW (if you dont have NodeJS)](#installing-nodejs-using-brew-if-you-dont-have-nodejs)
-      - [Install brew](#install-brew)
-      - [Install NodeJS with brew](#install-nodejs-with-brew)
-    - [Add .env file (in the root folder)](#add-env-file-in-the-root-folder)
-    - [Run Patient API](#run-patient-api)
-  - [Roadmap](#roadmap)
-  - [Authors and acknowledgment](#authors-and-acknowledgment)
-  - [Project status](#project-status)
 
 
 ## Getting started
@@ -111,12 +112,6 @@ Congratulations! You are now running the Patient API.
 This service will not get updated in the future, due to project being considered as closed when GU course DIT356 is finished.
 
 ## Authors and acknowledgment
-
-This service is a part of DIT356 distributed systems course, and is created by Group 20. [Check here for more information about the entire project.](https://git.chalmers.se/courses/dit355/2023/student-teams/dit356-2023-20/group-20-distributed-systems/-/wikis/home)
-
-***WIP DUE TO SERVICE STILL BEING DEVELOPED***
-
-In this service the following people have contributed:
 
 - Lucas Holter
 - Cornelia Olofsson Larsson
